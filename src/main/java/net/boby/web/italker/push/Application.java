@@ -15,8 +15,6 @@ public class Application extends ResourceConfig {
         //注册逻辑处理包名
 //        packages("net.boby.web.italk.push.service.AccountService");
         packages(AccountService.class.getPackage().getName());
-
-        System.out.println(AccountService.class.getPackage().getName());
         //注册json解析器
         register(JacksonJsonProvider.class);
         //注册日志打印输出
