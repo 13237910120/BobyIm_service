@@ -63,7 +63,7 @@ public class User {
 
     //我关注的人的列表方法
     //对应的数据库字段为TB_FOLLOW.originId
-    @JoinColumn(name = "originId")
+    @JoinColumn(name = "originId",nullable = true)
     //定义为懒加载，默认加载User信息的时候并不查询这个集合
     @LazyCollection(LazyCollectionOption.EXTRA)
     //一对多，一个用户可以关注很多人
@@ -72,12 +72,23 @@ public class User {
 
     //关注的我人的列表方法
     //对应的数据库字段为TB_FOLLOW.targetId
-    @JoinColumn(name = "targetId")
+    @JoinColumn(name = "targetId",nullable = true)
     //定义为懒加载，默认加载User信息的时候并不查询这个集合
     @LazyCollection(LazyCollectionOption.EXTRA)
     //一对多，一个用户可以被很多人关注
     @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Set<UserFollow> follows=new HashSet<>();
+    //我所创建的群，
+    //对应字段的时候 Group.ownerId
+    @JoinColumn(name = "ownerId")
+    //懒加载集合尽可能不加载具体数据
+    //当访问Group.size的时候也不加载，仅仅查询数量不加载具体的数据，
+    //只有遍历时才加载
+    @LazyCollection(LazyCollectionOption.EXTRA)
+    //FetchType.LAZY:懒加载，加载用户信息时不加载这个集合
+    @OneToMany(fetch =FetchType.LAZY,cascade = CascadeType.ALL)
+    private Set<Group> groups=new HashSet<>();
+
     public String getId() {
         return id;
     }
@@ -189,5 +200,13 @@ public class User {
 
     public void setFollows(Set<UserFollow> follows) {
         this.follows = follows;
+    }
+
+    public Set<Group> getGroups() {
+        return groups;
+    }
+
+    public void setGroups(Set<Group> groups) {
+        this.groups = groups;
     }
 }

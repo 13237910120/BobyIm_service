@@ -11,6 +11,8 @@ import java.time.LocalDateTime;
  * 消息
  * Created by boby on 2017/6/26 0026.
  */
+@Entity
+@Table(name = "TB_MESSAGE")
 public class Message {
     public static final int TYPE_STR = 1;//字符串类型
     public static final int TYPE_PIC = 2;//图片类型
@@ -51,7 +53,7 @@ public class Message {
     @JoinColumn(name = "senderId")
     @ManyToOne(optional = false)
     private User sender;
-    @Column(updatable = false,insertable = false)
+    @Column(nullable = false,updatable = false,insertable = false)
     private String senderId;
     //接受者，可为空
     //  多个消息对应一个接收者
@@ -60,6 +62,14 @@ public class Message {
     private User receiver;
     @Column(updatable = false,insertable = false)
     private String receiverId;
+
+    //  一个群可以接收多个消息
+    @JoinColumn(name = "groupId")
+    @ManyToOne
+    private Group group;
+    @Column(updatable = false,insertable = false)
+    private String groupId;
+
 
     public String getId() {
         return id;

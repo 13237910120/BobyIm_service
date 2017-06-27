@@ -1,11 +1,13 @@
 package net.boby.web.italker.push.service;
 
-import com.sun.media.jfxmedia.Media;
-import net.boby.web.italker.push.bean.User;
+import net.boby.web.italker.push.bean.api.account.RegisterModel;
+import net.boby.web.italker.push.bean.card.UserCard;
+import net.boby.web.italker.push.bean.db.User;
+import net.boby.web.italker.push.bean.db.UserFollow;
+import net.boby.web.italker.push.factory.UserFactory;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.util.logging.Logger;
 
 
 /**
@@ -13,23 +15,41 @@ import java.util.logging.Logger;
  */
 @Path("/account")//访问路劲
 public class AccountService {
-    @GET
-    @Path("/Login")
-    public String get(){
-        System.out.println("log");
-        return  "你好，boby";
-    }
+
+
     @POST
-    @Path("/Login")
+    @Path("/register")
     //指定请求与返回的响应体为json
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public User post(){
-        User user=new User();
-        user.setId(1);
-        user.setName("波比");
-        user.setSex(2);
-        return  user;
+    public UserCard register(RegisterModel model){
+        User user=UserFactory.findByPhone(model.getAccount().trim());
+        if(user!=null){
+            UserCard card=new UserCard();
+            card.setPhone("已有了");
+            return card;
+        }
+        user=UserFactory.findByName(model.getName().trim());
+        if(user!=null){
+            UserCard card=new UserCard();
+            card.setName("已有了name");
+            return card;
+        }
+
+         user= UserFactory.register(model.getAccount(),
+                model.getPassword(),
+                model.getName());
+        if(user!=null){
+            UserCard card=new UserCard();
+            card.setName(user.getName());
+            card.setPhone(user.getPhone());
+            card.setSex(user.getSex());
+            card.setFollow(true);
+            card.setModifyAt(user.getUpdateAt());
+            return card;
+        }
+
+        return null;
     }
 
 }

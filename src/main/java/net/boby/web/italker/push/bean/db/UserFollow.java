@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
  * Created by boby on 2017/6/26 0026.
  */
 @Entity
-@Table(name = "TB_USER")
+@Table(name = "TB_USER_FOLLOW")
 public class UserFollow {
     //这是一个主键
     @Id
