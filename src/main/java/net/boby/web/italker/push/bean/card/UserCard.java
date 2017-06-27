@@ -2,6 +2,7 @@ package net.boby.web.italker.push.bean.card;
 
 import com.google.gson.annotations.Expose;
 import net.boby.web.italker.push.bean.db.Group;
+import net.boby.web.italker.push.bean.db.User;
 import net.boby.web.italker.push.bean.db.UserFollow;
 import org.hibernate.annotations.*;
 
@@ -24,7 +25,7 @@ public class UserCard {
     @Expose
     private String portrait;
     @Expose
-    private String des;
+    private String desc;
     @Expose
     private int sex = 0;
     @Expose
@@ -39,6 +40,19 @@ public class UserCard {
     @Expose
     //用户最后的更新时间
     private LocalDateTime modifyAt;
+
+    public UserCard(User user) {
+        this.id = user.getId();
+        this.name = user.getName();
+        this.phone = user.getPhone();
+        this.portrait = user.getPortrait();
+        this.desc = user.getId();
+        this.sex = user.getSex();
+        this.modifyAt = user.getUpdateAt();
+        //TODO 得到关注人和粉丝的数量
+        // user.getFollows().size();
+        //懒加载会报错，没有得到session
+    }
 
     public String getId() {
         return id;
@@ -72,12 +86,12 @@ public class UserCard {
         this.portrait = portrait;
     }
 
-    public String getDes() {
-        return des;
+    public String getDesc() {
+        return desc;
     }
 
-    public void setDes(String des) {
-        this.des = des;
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 
     public int getSex() {
