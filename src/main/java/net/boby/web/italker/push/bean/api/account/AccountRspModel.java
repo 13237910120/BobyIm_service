@@ -28,8 +28,40 @@ public class AccountRspModel {
     }
     public AccountRspModel(User user,boolean isBind){
         this.account=user.getPhone();
-        this.token=user.getTaken();
+        this.token=user.getToken();
         this.isBind=isBind;
         this.user=new UserCard(user);
+    }
+
+    public UserCard getUser() {
+        return user;
+    }
+
+    public void setUser(UserCard user) {
+        this.user = user;
+    }
+
+    public String getAccount() {
+        return account;
+    }
+
+    public void setAccount(String account) {
+        this.account = account;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public boolean isBind() {
+        return isBind;
+    }
+
+    public void setBind(boolean bind) {
+        isBind = bind;
     }
 }

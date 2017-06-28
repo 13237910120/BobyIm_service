@@ -43,7 +43,7 @@ public class User {
     private int sex = 0;
     //可以拉去用户信息，所以token必须唯一
     @Column(unique = true)
-    private String taken;
+    private String token;
     //用于推送Id
     @Column
     private String pushId;
@@ -145,12 +145,12 @@ public class User {
         this.sex = sex;
     }
 
-    public String getTaken() {
-        return taken;
+    public String getToken() {
+        return token;
     }
 
-    public void setTaken(String taken) {
-        this.taken = taken;
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public String getPushId() {

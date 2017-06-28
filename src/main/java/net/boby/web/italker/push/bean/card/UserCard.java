@@ -46,7 +46,7 @@ public class UserCard {
         this.name = user.getName();
         this.phone = user.getPhone();
         this.portrait = user.getPortrait();
-        this.desc = user.getId();
+        this.desc = user.getDescription();
         this.sex = user.getSex();
         this.modifyAt = user.getUpdateAt();
         //TODO 得到关注人和粉丝的数量

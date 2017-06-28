@@ -4,15 +4,14 @@ import com.google.common.base.Strings;
 import com.google.gson.annotations.Expose;
 
 /**
- * Created by boby on 2017/6/27 0027.
+ * Created by boby on 2017/6/28 0028.
  */
-public class RegisterModel {
+public class LoginModel {
+
     @Expose
     private String account;
     @Expose
     private String password;
-    @Expose
-    private String name;
     @Expose
     private String pushId;
 
@@ -32,14 +31,6 @@ public class RegisterModel {
         this.password = password;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getPushId() {
         return pushId;
     }
@@ -49,10 +40,9 @@ public class RegisterModel {
     }
 
     //校验
-    public static boolean check(RegisterModel loginModel){
+    public static boolean check(LoginModel loginModel){
         return loginModel!=null
                 && !Strings.isNullOrEmpty(loginModel.account)
-                && !Strings.isNullOrEmpty(loginModel.password)
-                && !Strings.isNullOrEmpty(loginModel.name);
+                && !Strings.isNullOrEmpty(loginModel.password);
     }
 }
