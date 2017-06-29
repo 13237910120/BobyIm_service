@@ -19,7 +19,7 @@ import javax.ws.rs.core.MediaType;
  * Created by Administrator on 2017/5/31 0031.
  */
 @Path("/account")//访问路劲
-public class AccountService {
+public class AccountService extends BaseService{
 
     @POST
     @Path("/login")
@@ -97,22 +97,17 @@ public class AccountService {
     @Produces(MediaType.APPLICATION_JSON)
     //从请求头中获取token字段
     //从url地址中国获取
-    public ResponseModel<AccountRspModel> bind(@HeaderParam("token") String  token,
+    public ResponseModel<AccountRspModel> bind(
                                                    @PathParam("pushId") String pushId) {
-            if(Strings.isNullOrEmpty(token)
-                    ||Strings.isNullOrEmpty(pushId)){
+            if(Strings.isNullOrEmpty(pushId)){
                 return ResponseModel.buildParameterError();
             }
             //拿到当前账户
-        User user= UserFactory.findByToken(token);
-            if(user!=null){
+        User self= getSelf();
                 //进行设备号绑定的操作
-               user= UserFactory.bindPushId(user,pushId);
-               return  bind(user,pushId);
-            }else {
-                //Token 失效，所有无法进行绑定
-                return ResponseModel.buildAccountError();
-            }
+        self= UserFactory.bindPushId(self,pushId);
+          return  bind(self,pushId);
+
 
     }
         private ResponseModel<AccountRspModel> bind(User self,String pushId){
@@ -123,7 +118,7 @@ public class AccountService {
                 return ResponseModel.buildServiceError();
             }
             //返回当前账户，并且已经绑定了
-            AccountRspModel rspModel = new AccountRspModel(user);
+            AccountRspModel rspModel = new AccountRspModel(user,true);
             return ResponseModel.buildOk(rspModel);
         }
 

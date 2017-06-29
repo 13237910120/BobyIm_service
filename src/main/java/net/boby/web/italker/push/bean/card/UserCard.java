@@ -42,6 +42,10 @@ public class UserCard {
     private LocalDateTime modifyAt;
 
     public UserCard(User user) {
+       this(user,false);
+    }
+
+    public UserCard(User user,boolean isFollow) {
         this.id = user.getId();
         this.name = user.getName();
         this.phone = user.getPhone();
@@ -49,6 +53,7 @@ public class UserCard {
         this.desc = user.getDescription();
         this.sex = user.getSex();
         this.modifyAt = user.getUpdateAt();
+        this.isFollow=isFollow;
         //TODO 得到关注人和粉丝的数量
         // user.getFollows().size();
         //懒加载会报错，没有得到session

@@ -36,6 +36,18 @@ public class UserFactory {
     }
 
     /**
+     * 更新到数据库
+     * @param user
+     * @return
+     */
+    public static User update(User user){
+       return Hib.query(session -> {
+            session.saveOrUpdate(user);
+            return user;
+        });
+    }
+
+    /**
      * 使用账户和密码进行登录
      * @param account
      * @param password
@@ -89,7 +101,8 @@ public class UserFactory {
         Hib.queryOnly(session ->{
             @SuppressWarnings("unchecked")
             List<User> userList=( List<User> )session.
-                    createQuery("from User where lower(pushId)=: pushId and phone !=: userId ")
+//                    createQuery("from User where lower(pushId)=: pushId and id!=:userId ")
+                    createQuery("from User where lower(pushId)=:pushId and id!=:userId")
                     .setParameter("pushId",pushId)
                     .setParameter("userId",user.getId())
                     .list();
@@ -112,10 +125,7 @@ public class UserFactory {
             }
             //更新新的设备Id
             user.setPushId(pushId);
-            return Hib.query(session -> {
-                session.saveOrUpdate(user);
-                return user;
-            });
+            return update(user);
         }
 
     }
@@ -149,7 +159,11 @@ public class UserFactory {
         //账户就是手机号
         user.setPhone(account);
         //数据储存
-        return Hib.query(session -> (User)session.save(user));
+        // 数据库存储
+        return Hib.query(session -> {
+            session.save(user);
+            return user;
+        });
     }
 
     /**
@@ -165,10 +179,7 @@ public class UserFactory {
         newToken=TextUtil.encodeBase64(newToken);
         //保存token
         user.setToken(newToken);
-        return Hib.query(session -> {
-            session.saveOrUpdate(user);
-            return user;
-        });
+        return update(user);
     }
 
 
