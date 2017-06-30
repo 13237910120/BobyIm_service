@@ -19,7 +19,7 @@ import javax.ws.rs.core.SecurityContext;
 @Path("/user")
 public class UserService extends BaseService{
 
-    @POST
+    @PUT
     //@Path(""),不需要写就是当前目录
     //返回的响应体为json
     @Consumes(MediaType.APPLICATION_JSON)

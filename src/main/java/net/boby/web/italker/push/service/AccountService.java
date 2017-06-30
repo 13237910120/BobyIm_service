@@ -91,14 +91,14 @@ public class AccountService extends BaseService{
     }
 
     @POST
-    @Path("/bind{pushId}")
+    @Path("/bind/{pushId}")
     //指定请求与返回的响应体为json
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     //从请求头中获取token字段
     //从url地址中国获取
-    public ResponseModel<AccountRspModel> bind(
-                                                   @PathParam("pushId") String pushId) {
+    public ResponseModel<AccountRspModel> bind(@HeaderParam("token") String token,
+                                               @PathParam("pushId") String pushId) {
             if(Strings.isNullOrEmpty(pushId)){
                 return ResponseModel.buildParameterError();
             }
@@ -110,6 +110,7 @@ public class AccountService extends BaseService{
 
 
     }
+
         private ResponseModel<AccountRspModel> bind(User self,String pushId){
             //进行设备号绑定的操作
           User user=  UserFactory.bindPushId(self,pushId);
